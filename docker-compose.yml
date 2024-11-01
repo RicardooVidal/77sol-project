@@ -5,18 +5,10 @@ services:
       dockerfile: docker/Dockerfile
     image: laravel-api:latest
     container_name: app
-    environment:
-      - APP_ENV=local
-      - APP_DEBUG=true
-      - APP_KEY=base64:some-random-key
-      - DB_CONNECTION=mysql
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=project
-      - DB_USERNAME=root
-      - DB_PASSWORD=123456
     volumes:
       - ./:/var/www
+    networks:
+      - app_network
     ports:
       - "9000:9000"
     depends_on:
@@ -29,7 +21,7 @@ services:
       - "8085:80"
     volumes:
       - .:/var/www
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
 
@@ -39,12 +31,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: project
-      MYSQL_USER: 123456
-      MYSQL_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
 
 volumes:
   mysql_data:
