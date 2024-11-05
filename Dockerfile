@@ -31,9 +31,13 @@ RUN chmod 0755 .
 
 RUN chmod -R 0755 /var/www/storage
 
-RUN cp .env.dev .env
+RUN chmod -R 0755 .env.dev
 
 USER www-data
+
+RUN cp .env.dev .env
+
+RUN php artisan key:generate
 
 EXPOSE 9000
 CMD ["php-fpm"]
