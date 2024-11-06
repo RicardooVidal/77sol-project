@@ -20,7 +20,16 @@ class CustomerRepository
     public function getAll(array $filters = []): Collection
     {
         return $this->customer
-            ->when(!empty($filters), fn($query) => $query->where($filters))
+            ->with('projects:id,customer_id')
+            ->when(!empty($filters), function($query) use ($filters) {
+                foreach($filters as $key => $value) {
+                    if ($key === 'name') {
+                        $query->where($key, 'LIKE', '%' . $value . '%');
+                    } else {
+                        $query->where($key, $value);
+                    }
+                }
+            })
             ->get();
     }
 

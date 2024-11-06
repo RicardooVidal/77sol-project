@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Domains\Equipment\Entities;
+namespace App\Domains\InstallationType\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Equipment extends Model
+class InstallationType extends Model
 {
-    protected $table = 'equipments';
+    protected $table = 'installation_types';
 
     protected $fillable = [
         'description'

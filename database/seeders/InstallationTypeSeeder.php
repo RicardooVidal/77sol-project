@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Domains\TypeInstallation\Entities\TypeInstallation;
+use App\Domains\InstallationType\Entities\InstallationType;
 use Illuminate\Database\Seeder;
 
-class TypeInstallationSeeder extends Seeder
+class InstallationTypeSeeder extends Seeder
 {
     const Types = [
         'Fibrocimento (Madeira)',
@@ -22,7 +22,7 @@ class TypeInstallationSeeder extends Seeder
     public function run(): void
     {
         foreach(self::Types as $type) {
-            TypeInstallation::create(['description' => $type]);
+            InstallationType::create(['description' => $type]);
         }
     }
 }
