@@ -16,16 +16,22 @@ class ProjectRepository
     public function getById(int $id): ?Project
     {
         return $this->project
-            ->with(['equipments.equipment:id,description'])
-            ->with(['customer:id,name'])
+            ->with([
+                'customer:id,name',
+                'installationType:id,description',
+                'equipments.equipment:id,description'
+            ])
             ->findOrFail($id);
     }
 
     public function getAll(array $filters = []): Collection
     {
         return $this->project
-            ->with(['equipments.equipment:id,description'])
-            ->with(['customer:id,name'])
+            ->with([
+                'customer:id,name',
+                'installationType:id,description',
+                'equipments.equipment:id,description'
+            ])
             ->when(!empty($filters), fn($query) => $query->where($filters))
             ->get();
     }

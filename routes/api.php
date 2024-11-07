@@ -20,5 +20,5 @@ Route::resources([
 Route::prefix('projects')->group(function() {
     Route::post('{projectId}/equipment', [ProjectController::class, 'storeEquipment']);
     Route::put('{projectId}/equipment', [ProjectController::class, 'updateEquipment']);
-    Route::delete('{projectId}/equipment', [ProjectController::class, 'destroyEquipment']);
+    Route::delete('{projectId}/equipment/{equipamentId}', [ProjectController::class, 'destroyEquipment']);
 });

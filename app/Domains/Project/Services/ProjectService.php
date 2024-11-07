@@ -30,7 +30,7 @@ class ProjectService
         return $this->projectRepository->create($params->toArray())->toArray();
     }
 
-    public function addEquipments(ProjectEquipmentDTO $equipment, int $projectId): void
+    public function addEquipment(ProjectEquipmentDTO $equipment, int $projectId): void
     {
         $project = $this->projectRepository->getById($projectId);
         app(StoreProjectEquipmentAction::class)->execute($project, $equipment);

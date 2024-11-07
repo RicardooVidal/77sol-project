@@ -36,7 +36,7 @@ class ProjectController extends Controller
     public function storeEquipment(ProjectEquipmentRequest $request, int $projectId): JsonResponse
     {
         $params = new ProjectEquipmentDTO($request->validated());
-        $data = $this->projectService->addEquipments($params, $projectId);
+        $data = $this->projectService->addEquipment($params, $projectId);
 
         return response()->json($data, Response::HTTP_CREATED);
     }
@@ -71,9 +71,9 @@ class ProjectController extends Controller
         return response()->json($data, Response::HTTP_NO_CONTENT);
     }
 
-    public function destroyEquipment(DestroyProjectEquipmentRequest $request, int $projectId): JsonResponse
+    public function destroyEquipment(int $projectId, int $equipmentId): JsonResponse
     {
-        $data = $this->projectService->deleteEquipment($projectId, $request->get('equipment_id'));
+        $data = $this->projectService->deleteEquipment($projectId, $equipmentId);
         
         return response()->json($data, Response::HTTP_NO_CONTENT);
     }
