@@ -20,15 +20,13 @@ Este projeto é um sistema desenvolvido para o case da 77Sol, no qual simula um 
 ## Tecnologias Utilizadas
 - **PHP 8.2**
 - **Laravel 11**
+- **Nginx**
 - **MySQL 8.0**
 - **Composer**
 - **PHPUnit**
 
 ## Arquitetura do Sistema
-O sistema utiliza uma combinação de **MVC (Model-View-Controller)** do Laravel com uma organização orientada a **Domain-Driven Design (DDD)**, visando uma separação clara entre diferentes áreas de negócio. 
-  
-
-**Service Layer (Camada de Serviços)**: Em vez de centralizar toda a lógica de negócio nos controladores, cada domínio contém classes de serviço para operações complexas, tornando o sistema mais modular e testável.
+O projeto foi desenvolvido com DDD (Domain-Driven Design) e uma Arquitetura em Camadas (Layered Architecture). Mais detalhes na [documentação completa](https://docs.google.com/document/d/1lP-lE4VY5a-b7YlIb3ZI4Oaa1JxkLrdUUYzCqefGLJA/edit?usp=sharing)
 
 ## Instalação
 
@@ -51,7 +49,11 @@ O sistema utiliza uma combinação de **MVC (Model-View-Controller)** do Laravel
    cp .env.dev .env (Unix)
    copy .env.dev .env (Windows)
 
-3. **Executar docker-composer**:  
+3. **Instalar as dependências**:  
+   ```bash
+   composer install
+
+3. **Buildar as imagens e subir os containers com docker compose**:  
    ```bash
    docker compose build
    docker compose up
@@ -59,6 +61,10 @@ O sistema utiliza uma combinação de **MVC (Model-View-Controller)** do Laravel
 4. **Gerar a chave da aplicação**:  
    ```bash
     php artisan key:generate
+
+6. **Executar migrations**:  
+   ```bash
+    php artisan migrate
 
 5. **Executar seeders**:  
    ```bash
@@ -70,7 +76,7 @@ O sistema utiliza uma combinação de **MVC (Model-View-Controller)** do Laravel
    ```bash
     php artisan test
 
-1. **Para executar um teste em específico:**  
+2. **Para executar um teste em específico:**  
    ```bash
     php artisan test --filter=test_update_project_successful
 

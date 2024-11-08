@@ -13,25 +13,21 @@ RUN apk --no-cache add \
     && docker-php-ext-install \
     pdo_mysql \
     zip \
-    intl
-    
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath zip
-
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+    intl \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath
 
 WORKDIR /var/www
 
 COPY . .
 
-RUN composer install
-
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-
-RUN chmod 0755 .
-
-RUN chmod -R 0755 /var/www/storage
+RUN chown -R www-data:www-data /var/www
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 USER www-data
 
 EXPOSE 9000
-CMD ["php-fpm"]
+
+CMD ["sh", "-c", "composer install --ignore-platform-reqs && cp .env.dev .env && php-fpm"]
