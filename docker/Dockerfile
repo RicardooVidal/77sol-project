@@ -19,15 +19,16 @@ RUN apk --no-cache add \
     pcntl \
     bcmath
 
-WORKDIR /var/www
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/77sol-project
 
 COPY . .
 
-RUN chown -R www-data:www-data /var/www
-RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
-
-USER www-data
+# Apenas para testes locais. Em um servidor o correto seria 0755
+RUN chmod -R 775 ./storage
+RUN chmod -R 775 ./public/swagger
 
 EXPOSE 9000
 
-CMD ["sh", "-c", "composer install --ignore-platform-reqs && cp .env.dev .env && php-fpm"]
+CMD ["sh", "-c", "composer install --ignore-platform-reqs && cp .env.dev .env && php artisan key:generate && php-fpm"]
