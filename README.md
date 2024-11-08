@@ -50,7 +50,7 @@ O projeto foi desenvolvido com DDD (Domain-Driven Design) e uma Arquitetura em C
 3. **Buildar as imagens e subir os containers com docker compose**:  
    ```bash
    docker compose build
-   docker compose up
+   docker compose up -d
 
 4. **Executar migrations**:  
    ```bash
@@ -59,8 +59,6 @@ O projeto foi desenvolvido com DDD (Domain-Driven Design) e uma Arquitetura em C
 5. **Executar seeders**:  
    ```bash
     docker compose exec app php artisan db:seed
-
-
 
 ### Testes
 
