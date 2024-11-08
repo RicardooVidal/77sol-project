@@ -42,31 +42,25 @@ O projeto foi desenvolvido com DDD (Domain-Driven Design) e uma Arquitetura em C
    git clone git@github.com:RicardooVidal/77sol-project.git
    cd 77sol-project
 
-2. **Criar o arquivo .env**:
+2. **(SOMENTE LOCAL) Permissões**:  
    ```bash
-   cp .env.dev .env (Unix)
-   copy .env.dev .env (Windows)
-
-3. **Instalar as dependências**:  
-   ```bash
-   composer install
+    chmod -R 0777 storage/
+    chmod -R 0777 public/swagger
 
 3. **Buildar as imagens e subir os containers com docker compose**:  
    ```bash
    docker compose build
    docker compose up
 
-4. **Gerar a chave da aplicação**:  
+4. **Executar migrations**:  
    ```bash
-    php artisan key:generate
-
-6. **Executar migrations**:  
-   ```bash
-    php artisan migrate
+    docker compose exec app php artisan migrate
 
 5. **Executar seeders**:  
    ```bash
-    php artisan db:seed
+    docker compose exec app php artisan db:seed
+
+
 
 ### Testes
 
