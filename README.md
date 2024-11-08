@@ -5,12 +5,10 @@
 2. [Tecnologias Utilizadas](#tecnologias-utilizadas)
 3. [Arquitetura do Sistema](#arquitetura-do-sistema)
 4. [Instalação](#instalação)
-5. [Uso do Sistema](#uso-do-sistema)
-6. [Endpoints da API](#endpoints-da-api)
-7. [Testes](#testes)
-8. [Estrutura de Pastas](#estrutura-de-pastas)
-9. [Extensibilidade](#extensibilidade)
-10. [Boas Práticas e Segurança](#boas-práticas-e-segurança)
+6. [Testes](#testes)
+7. [Estrutura de Pastas](#estrutura-de-pastas)
+8. [Extensibilidade](#extensibilidade)
+9. [Boas Práticas e Segurança](#boas-práticas-e-segurança)
 
 ---
 
