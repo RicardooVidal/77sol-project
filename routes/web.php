@@ -7,4 +7,8 @@ Route::get('/', function () {
     return redirect('/api-doc');
 });
 
+Route::get('/status', function () {
+    return 'OK';
+});
+
 Route::get('/api-doc', [SwaggerController::class, 'serveSwagger']);
