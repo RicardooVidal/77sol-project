@@ -55,12 +55,10 @@ class CreateCustomerServiceTest extends TestCase
             'name' => $faker->name,
             'email' => $faker->unique()->safeEmail,
             'phone' => $faker->phoneNumber,
-            'document' =>  '44072829838'
+            'document' =>  '11144477735'
         ];
 
         $customerDTO = new CustomerDTO($customerData);
-
-        $this->expectException(UniqueConstraintViolationException::class);
 
         $customerService = app(CustomerService::class);
         $customer = $customerService->create($customerDTO);
@@ -73,7 +71,7 @@ class CreateCustomerServiceTest extends TestCase
             'document' => $customerData['document']
         ]);
 
-        // $this->expectException(QueryException::class);
+        $this->expectException(UniqueConstraintViolationException::class);
 
         $customer = $customerService->create($customerDTO);
     }

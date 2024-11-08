@@ -2,6 +2,7 @@
 
 namespace App\Domains\Customer\Services\DTO;
 
+use App\Exceptions\InvalidDocumentException;
 use App\Support\DocumentValidator;
 use InvalidArgumentException;
 use Spatie\DataTransferObject\DataTransferObject;
@@ -18,7 +19,7 @@ class CustomerDTO extends DataTransferObject
         parent::__construct($parameters);
 
         if (!DocumentValidator::validateCPF($this->document) && !DocumentValidator::validateCNPJ($this->document)) {
-            throw new InvalidArgumentException("Invalid document format.");
+            throw new InvalidDocumentException("Invalid document");
         }
     }
 }

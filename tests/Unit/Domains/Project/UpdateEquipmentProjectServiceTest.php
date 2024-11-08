@@ -50,6 +50,12 @@ class UpdateEquipmentProjectServiceTest extends TestCase
 
         $projectService = app(ProjectService::class);
         $projectService->updateEquipment($projectDTO, $project->id);
+
+        $this->assertDatabaseHas('projects_equipments', [
+            'project_id' => $project->id,
+            'equipment_id' => $projectEquipmentData['equipment_id'],
+            'quantity' => $projectEquipmentData['quantity'],
+        ]);
     }
 
     public function test_update_equipment_to_project_error_when_project_does_not_exist()

@@ -10,6 +10,7 @@ use App\Http\Requests\Project\AllProjectsRequest;
 use App\Http\Requests\Project\ProjectEquipmentRequest;
 use App\Http\Requests\Project\ProjectRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Project\UpdateEquipmentRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -56,9 +57,14 @@ class ProjectController extends Controller
         return response()->json($data, Response::HTTP_OK);
     }
 
-    public function updateEquipment(ProjectEquipmentRequest $request, int $projectId): JsonResponse
+    public function updateEquipment(UpdateEquipmentRequest $request, int $projectId, int $equipmentId): JsonResponse
     {
-        $params = new ProjectEquipmentDTO($request->validated());
+        $params = array_merge([
+            'equipment_id' => $equipmentId,
+            ...$request->validated()
+        ]);
+
+        $params = new ProjectEquipmentDTO($params);
         $data = $this->projectService->updateEquipment($params, $projectId);
 
         return response()->json($data, Response::HTTP_OK);

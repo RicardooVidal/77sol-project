@@ -20,12 +20,24 @@ abstract class TestCase extends BaseTestCase
     protected function createCustomer()
     {
         $faker = Faker::create();
+        $document = TestCase::DOCUMENTS[array_rand(TestCase::DOCUMENTS)];
+
+        while (true) {
+            $customer =Customer::whereDocument($document)->first();
+
+            if ($customer) {
+                $document = TestCase::DOCUMENTS[array_rand(TestCase::DOCUMENTS)];
+                continue;
+            }
+
+            break;
+        }
 
         return Customer::create([
             'name' => $faker->name,
             'email' => $faker->unique()->safeEmail,
             'phone' => $faker->phoneNumber,
-            'document' =>  TestCase::DOCUMENTS[array_rand(TestCase::DOCUMENTS)]
+            'document' =>  $document
         ]);
     }
 }

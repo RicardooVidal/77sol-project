@@ -4,6 +4,7 @@ namespace App\Domains\Project\Actions;
 
 use App\Domains\Project\Entities\Project;
 use App\Domains\Project\Services\DTO\ProjectEquipmentDTO;
+use App\Exceptions\EquipmentOnProjectException;
 use Exception;
 
 class StoreProjectEquipmentAction
@@ -13,7 +14,7 @@ class StoreProjectEquipmentAction
         $equipmentProject = $project->equipments()->where('equipment_id', $equipment->equipment_id)->first();
 
         if ($equipmentProject) {
-            throw new Exception('Equipment already on project');
+            throw new EquipmentOnProjectException();
         }
 
         $project->equipments()->create([

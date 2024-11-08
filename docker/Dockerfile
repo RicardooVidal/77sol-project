@@ -31,8 +31,6 @@ RUN chmod 0755 .
 
 RUN chmod -R 0755 /var/www/storage
 
-RUN cp .env.dev .env
-
 USER www-data
 
 EXPOSE 9000
