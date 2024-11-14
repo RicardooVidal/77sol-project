@@ -1,34 +1,25 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2-cli
 
-RUN apk --no-cache add \
-    bash \
-    shadow \
-    curl \
-    libzip-dev \
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
     zip \
     unzip \
-    oniguruma-dev \
-    icu-dev \
-    mysql-client \
-    && docker-php-ext-install \
-    pdo_mysql \
-    zip \
-    intl \
-    mbstring \
-    exif \
-    pcntl \
-    bcmath
+    git \
+    libzip-dev
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+RUN set -eux \
+    && apt-get update \
+    && apt-get install -y libzip-dev zlib1g-dev \
+    && docker-php-ext-install zip
 
-WORKDIR /var/www/77sol-project
+RUN docker-php-ext-install pdo pgsql mysqli pdo_mysql
+
+WORKDIR /var/www
 
 COPY . .
 
-# Apenas para testes locais. Em um servidor o correto seria 0755
-RUN chmod -R 775 ./storage
-RUN chmod -R 775 ./public/swagger
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-EXPOSE 9000
+EXPOSE 8085
 
-CMD ["sh", "-c", "composer install --ignore-platform-reqs && cp .env.dev .env && php artisan key:generate && php-fpm"]
+CMD ["sh", "-c", "cp .env.dev .env && composer install --ignore-platform-reqs && php artisan key:generate && php artisan serve --host=0.0.0.0 --port=8085"]

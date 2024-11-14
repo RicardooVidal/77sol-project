@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             EquipmentSeeder::class,
-            InstallationTypeSeeder::class
+            InstallationTypeSeeder::class,
+            UserSeeder::class
         ]);
     }
 }

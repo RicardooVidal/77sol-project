@@ -5,6 +5,7 @@ info:
   version: "1.0.0"
   
 tags: 
+  - name: Login
   - name: Customers
   - name: Projects
   - name: Equipments
@@ -14,6 +15,36 @@ servers:
   - url: "http://localhost:8085"
 
 paths:
+  /api/login:
+    post:
+      summary: Login
+      tags:
+        - Login
+      description: Login.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login efetuado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "401":
+          description: Credenciais inválidas.
+
   /api/customers:
     get:
       summary: Get All Customers
@@ -37,6 +68,8 @@ paths:
           in: query
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Lista de clientes retornada com sucesso.
@@ -77,6 +110,8 @@ paths:
                   type: string
                 document:
                   type: string
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Cliente criado com sucesso.
@@ -112,6 +147,8 @@ paths:
           required: true
           schema:
             type: integer
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Cliente encontrado com sucesso.
@@ -158,6 +195,8 @@ paths:
                   type: string
                 document:
                   type: string
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Cliente atualizado com sucesso.
@@ -194,6 +233,8 @@ paths:
           required: true
           schema:
             type: integer
+      security:
+        - bearerAuth: []
       responses:
         "204":
           description: Cliente excluído com sucesso.
@@ -222,6 +263,8 @@ paths:
           name: location
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Lista de projetos retornada com sucesso
@@ -287,6 +330,8 @@ paths:
                 customer_id: 1
                 installation_type_id: 1
                 location: "SP"
+      security:
+        - bearerAuth: []
       responses:
         '201':
           description: Projeto criado com sucesso
@@ -307,344 +352,9 @@ paths:
         "422":
           description: Parâmetros inválidos
 
-  /api/projects/{projectId}:
-    get:
-      tags:
-        - Projects
-      summary: Get Project by ID
-      parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Projeto retornado com sucesso
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  location:
-                    type: string
-                  created_at:
-                    type: string
-                    format: date-time
-                  customer:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                  installation_type:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      description:
-                        type: string
-                  equipments:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        quantity:
-                          type: integer
-                        equipment:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                            description:
-                              type: string
-        "404":
-          description: Projeto não encontrado
-
-    put:
-      tags:
-        - Projects
-      summary: Update Project
-      parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                customer_id:
-                  type: integer
-                installation_type_id:
-                  type: integer
-                location:
-                  type: string
-              example:
-                customer_id: 1
-                installation_type_id: 2
-                location: "SP"
-      responses:
-        '200':
-          description: Projeto atualizado com sucesso
-          content:
-            application/json:
-              schema:
-                type: boolean
-                example: true
-        "404":
-          description: Projeto ou Tipo de Instalação não encontrado
-        "422":
-          description: Parâmetros inválidos
-
-    delete:
-      tags:
-        - Projects
-      summary: Delete Project
-      parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Projeto excluído com sucesso
-          content:
-            application/json:
-              schema:
-                type: boolean
-                example: true
-        "404":
-          description: Projeto não encontrado
-
-  /api/projects/{projectId}/equipment:
-    post:
-      tags:
-        - Projects
-      summary: Add new Equipment to Project
-      parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                equipment_id:
-                  type: integer
-                quantity:
-                  type: integer
-              example:
-                equipment_id: 5
-                quantity: 3
-      responses:
-        '201':
-          description: Equipamento adicionado com sucesso
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  equipment_id:
-                    type: integer
-                  quantity:
-                    type: integer
-        "404":
-          description: Projeto ou Equipamento não encontrado
-        "422":
-          description: Parâmetros inválidos
-
-  /api/projects/{projectId}/equipment/{equipmentId}:
-    put:
-      tags:
-        - Projects
-      summary: Update Equipment in Project
-      parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: integer
-        - in: path
-          name: equipmentId
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                quantity:
-                  type: integer
-      responses:
-        '200':
-          description: Equipamento atualizado com sucesso
-          content:
-            application/json:
-              schema:
-                type: object
-                example: {}
-        "404":
-          description: Projeto ou Equipamento não encontrado
-        "422":
-          description: Parâmetros inválidos
-
-    delete:
-      tags:
-        - Projects
-      summary: Remove Equipment from Project
-      parameters:
-        - in: path
-          name: projectId
-          required: true
-          schema:
-            type: integer
-        - in: path
-          name: equipmentId
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Equipamento removido com sucesso
-          content:
-            application/json:
-              schema:
-                type: boolean
-                example: true
-        "404":
-          description: Projeto ou Equipamento não encontrado
-
-  /api/installationTypes:
-    get:
-      summary: Get All Installation Types
-      tags:
-        - Installation Types
-      description: Retorna uma lista de tipos de instalação.
-      parameters:
-        - name: id
-          in: query
-          schema:
-            type: integer
-        - name: description
-          in: query
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Lista de tipos de instalação retornada com sucesso.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    description:
-                      type: string
-        "422":
-          description: Parâmetros inválidos
-
-  /api/installationTypes/{id}:
-    get:
-      summary: Get Installation Type By ID
-      tags:
-        - Installation Types
-      description: Retorna um tipo de instalação específico pelo ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Tipo de instalação encontrado com sucesso.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  description:
-                    type: string
-        "404":
-          description: Tipo de instalação não encontrado.
-
-  /api/equipments:
-    get:
-      summary: Get All Equipments
-      tags:
-        - Equipments
-      description: Retorna uma lista de equipamentos.
-      parameters:
-        - name: id
-          in: query
-          schema:
-            type: integer
-        - name: description
-          in: query
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Lista de equipamentos retornada com sucesso.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    description:
-                      type: string
-        "422":
-          description: Parâmetros inválidos
-
-  /api/equipments/{id}:
-    get:
-      summary: Get Equipment By ID
-      tags:
-        - Equipments
-      description: Retorna um equipamento específico pelo ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Equipamento encontrado com sucesso.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  description:
-                    type: string
-        "404":
-          description: Equipamento não encontrado.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      in: header
+      name: Authorization
