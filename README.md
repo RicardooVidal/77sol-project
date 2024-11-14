@@ -6,9 +6,8 @@
 3. [Arquitetura do Sistema](#arquitetura-do-sistema)
 4. [Instalação](#instalação)
 6. [Testes](#testes)
-7. [Estrutura de Pastas](#estrutura-de-pastas)
-8. [Extensibilidade](#extensibilidade)
-9. [Boas Práticas e Segurança](#boas-práticas-e-segurança)
+7. [Endpoints](#endpoints)
+8. [Documentação completa](#documentação-completa)
 
 ---
 
