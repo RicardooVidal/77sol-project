@@ -60,8 +60,8 @@ O projeto foi desenvolvido com DDD (Domain-Driven Design) e uma Arquitetura em C
 
    Usuário para teste (somente após rodar o comando db:seed):
    ```bash
-    E-mail: test@test.com
-    Senha: 1234556
+    E-mail: "test@test.com"
+    Senha: "1234556"
 
 ### Testes
 
